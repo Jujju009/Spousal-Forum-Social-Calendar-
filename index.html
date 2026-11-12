@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spousal Social Schedule – Inaugural Meeting Availability Poll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdf7fb;--card:rgba(255,255,255,.92);--ink:#3d3552;--mute:#8a82a0;--accent:#d97a9e;--accent2:#b49be0;--ok:#5fb894;--okbg:#e2f5ec;--no:#c46a6a;--line:#efe4f2;--soft:#f3edfb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg) url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22260%22%20height%3D%22260%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M30%2040c-6-8-18-2-12%208l12%2012%2012-12c6-10-6-16-12-8z%22%20stroke%3D%22%23f3b6c8%22/%3E%3Cpath%20d%3D%22M190%2030l4%2010%2010%201-8%206%203%2010-9-6-9%206%203-10-8-6%2010-1z%22%20stroke%3D%22%23c9b8ec%22/%3E%3Cpath%20d%3D%22M40%20170c10-10%2020%2010%2030%200s20%2010%2030%200%22%20stroke%3D%22%23a8dcc8%22/%3E%3Ccircle%20cx%3D%22210%22%20cy%3D%22180%22%20r%3D%2210%22%20stroke%3D%22%23f7cfa8%22/%3E%3Cpath%20d%3D%22M200%20180h20M210%20170v20%22%20stroke%3D%22%23f7cfa8%22%20stroke-width%3D%221.5%22/%3E%3Cpath%20d%3D%22M120%20110h22v14a9%209%200%200%201-9%209h-4a9%209%200%200%201-9-9z%20M142%20114h4a5%205%200%200%201%200%2010h-4%20M126%20102c0-4%204-4%204-8%20M134%20102c0-4%204-4%204-8%22%20stroke%3D%22%23b9d4f1%22/%3E%3Cpath%20d%3D%22M100%20230l6-6%206%206-6%206z%22%20stroke%3D%22%23f3b6c8%22/%3E%3Cpath%20d%3D%22M230%20100c-4%200-6%204-4%207%203%204%209%202%209-3%22%20stroke%3D%22%23c9b8ec%22/%3E%3C/svg%3E") repeat;color:var(--ink);font:15px/1.5 "Nunito","DM Sans",system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+header{background:linear-gradient(135deg,#fbd3e0 0%,#e3d7fb 50%,#cdeee0 100%);color:var(--ink);border-radius:28px;box-shadow:0 8px 24px rgba(180,155,224,.25);padding:26px 24px;position:relative;overflow:hidden}
+header:after{content:"";}
+.forum{font:700 42px/1 Caveat,cursive;margin:0;color:#6b4f8a}
+.sub{font:700 16px Nunito;margin:6px 0 12px;color:#7a6a92}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.pill{background:rgba(255,255,255,.65);color:var(--ink);border-radius:99px;padding:4px 12px;font-size:13px}
+.card{background:var(--card);border:2px dashed #e6d9ef;border-radius:24px;box-shadow:0 4px 14px rgba(200,180,230,.15);padding:18px;margin-top:16px}
+h2{font:700 28px/1.1 Caveat,cursive;color:#6b4f8a;margin:0 0 10px}
+h3{font:600 15px "DM Sans";margin:14px 0 6px;color:var(--mute)}
+label{font-weight:500}
+select,input[type=date],input[type=password]{font:inherit;padding:8px 10px;border:1px solid #e2d3c4;border-radius:10px;background:#fff}
+button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:9px 16px;cursor:pointer;background:var(--accent);color:#fff}
+button.sec{background:var(--soft);color:var(--ink)}
+button.danger{background:#fbe3e3;color:var(--no)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.roster{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border-radius:99px;padding:5px 12px;font-size:13px;border:1px solid var(--line)}
+.chip.done{background:var(--okbg);border-color:#bfe6d0;color:#1d6e4a}
+.chip.wait{background:#fff4e5;border-color:#f6dcb4;color:#9a6420}
+.week{margin-bottom:10px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.day{border:2px solid var(--line);border-radius:14px;padding:10px;text-align:center;cursor:pointer;user-select:none;background:#fff;transition:.12s}
+.day .wd{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.day .dt{font:700 17px Fraunces,serif}
+.day.on{background:var(--okbg);border-color:var(--ok)}
+.day.on .wd:after{content:" ✓";color:var(--ok)}
+.day.ro{cursor:default;opacity:.8}
+.names{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.nlab{width:100%;font-weight:600;color:var(--mute);font-size:13px}
+.nm{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:99px;padding:9px 16px}
+.nm.me{background:var(--ok);border-color:var(--ok);color:#fff;transform:rotate(-2deg) scale(1.05);box-shadow:0 4px 10px rgba(95,184,148,.35)}
+.nm:nth-child(4n+2){background:#fdeef3}.nm:nth-child(4n+3){background:#f1ebfc}.nm:nth-child(4n){background:#eaf7f1}.nm:nth-child(4n+1){background:#fff3e6}
+.nm.me{background:var(--ok)!important}
+.seg{display:inline-flex;background:var(--soft);border-radius:12px;padding:3px}.seg button{background:transparent;color:var(--ink);padding:7px 12px;font-size:13px}.seg button.on{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.apn.anchor{background:#fff;color:var(--accent2);border:2px solid var(--accent2);animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(1.1)}}
+.apn.offer{background:var(--accent2);color:#fff;font-weight:700}
+.txt{font:inherit;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;flex:1;min-width:160px}
+.apn.selempty{border:2px solid var(--accent);color:var(--accent)}
+.sel-list{max-width:520px;margin:14px auto 0}
+.srow{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);}
+.srow.new,.srow.new .bub{animation:pop .3s cubic-bezier(.3,1.6,.5,1)}
+.sdate{width:70px;font-size:14px;flex:none}
+.bubs{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.bub{background:#fff;color:var(--ink);border:2px solid var(--line);border-radius:99px;padding:6px 12px;font-size:13px;display:flex;flex-direction:column;line-height:1.15}
+.bub small{font-weight:400;font-size:10px;color:var(--mute)}
+.bub.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.bub.on small{color:#e3f6ec}
+.rmd{background:transparent;color:var(--mute);font-size:20px;padding:4px 8px}
+.warnrow .sdate:after{content:"pick a slot";display:block;font-size:10px;color:var(--accent)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.santa-card{padding:0;border:0;background:transparent;box-shadow:none}
+.santa-heads{background:#fff;border:2px dashed #f6cfcf;border-radius:20px;padding:14px;margin-top:10px}
+.sh-title{font:700 24px Caveat,cursive;color:#a8425d;text-align:center;margin-bottom:8px}
+.sh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.sh{background:#fff7f2;border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:2px}
+.sh span{font-size:26px}.sh small{color:var(--mute);font-size:12px;line-height:1.35}
+.sh-weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.sh-weeks div{background:#f1ebfc;border-radius:12px;padding:8px 4px;text-align:center;font-size:12px}
+.sh-weeks b{display:block;color:#6b4f8a;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+@media(max-width:420px){.sh-weeks{grid-template-columns:repeat(2,1fr)}}
+.santa{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#ffe3e3,#fff2d9);border-radius:20px;padding:16px;border:2px solid #f6cfcf}
+.santa-emoji{font-size:44px;animation:wig 2.5s ease-in-out infinite}
+@keyframes wig{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.santa-tag{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c46a6a}
+.santa-title{font:700 30px/1.1 Caveat,cursive;color:#a8425d}
+.icat{border-radius:18px;padding:12px;margin-top:10px}
+.icat.c0{background:#fff3e6}.icat.c1{background:#eaf7f1}.icat.c2{background:#fdeef3}.icat.c3{background:#fff9db}.icat.c4{background:#f1ebfc}.icat.c5{background:#e8f1fc}
+.ihead{margin-bottom:8px}
+.ichips{display:flex;flex-wrap:wrap;gap:6px}
+.ich{background:#fff;color:var(--ink);border:1.5px solid rgba(0,0,0,.06);border-radius:99px;padding:7px 12px;font-size:13px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.ich.on{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.ich .cnt{background:rgba(0,0,0,.08);border-radius:99px;padding:0 7px;font-size:11px}
+.ich.on .cnt{background:rgba(255,255,255,.3)}
+.suggest{margin-top:14px} .suggest input{font:inherit;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;flex:1;min-width:180px}
+#suggList{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sugg{background:#fff;border:1.5px dashed var(--accent2);border-radius:14px;padding:6px 10px;font-size:13px}
+.rmown{background:transparent;color:var(--mute);padding:0 4px}
+.topr{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line)} .medal{width:22px;text-align:center}
+.ap{max-width:440px;margin:6px auto 0;font-family:-apple-system,"SF Pro Text","DM Sans",system-ui,sans-serif}
+.aphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.apm{font:700 32px Caveat,cursive;color:var(--accent)} .apy{font:700 32px Caveat,cursive;color:#9a8cb4}
+.apnav{display:flex;gap:6px} .navb{background:transparent;color:var(--accent);font-size:28px;line-height:1;padding:2px 12px}
+.apgrid{display:grid;grid-template-columns:repeat(7,1fr);row-gap:4px;border-top:1px solid var(--line);padding-top:8px}
+.apw{text-align:center;font-size:12px;font-weight:600;color:var(--mute);padding-bottom:6px}
+.apc{display:flex;flex-direction:column;align-items:center;padding:4px 0;min-height:54px;border-top:1px solid #f6ece2}
+.apc.cd{cursor:pointer;border:0;border-top:1px solid #f6ece2;border-radius:0;background:none;min-height:54px;padding:4px 0;font:inherit}
+.apc.dis .apn{color:#d4c7ba} .apc.dis .dots{visibility:hidden}
+.apn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500}
+.apn.today{color:var(--accent);font-weight:700}
+.apn.sel{background:var(--accent);color:#fff;font-weight:700}
+.apc.cd:active .apn{background:#fbd5df}
+.dots{display:none;gap:3px;height:6px;margin-top:3px}
+.dots i,.aplegend i{width:5px;height:5px;border-radius:50%;background:#eadfd4;display:inline-block}
+.dots i.f,.aplegend i.f{background:var(--ok)}
+.aplegend{display:none;justify-content:space-between;font-size:12px;color:var(--mute);margin-top:10px}
+.month{margin-bottom:16px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cw{font-size:12px;color:var(--mute);text-align:center;text-transform:uppercase;letter-spacing:.05em}
+.cd{min-height:62px;border-radius:12px;padding:6px;font:700 15px Fraunces,serif;border:2px solid transparent}
+.cd.off{color:#d6c8bb;background:#fbf4ec}
+.cd.in{background:#fff;border-color:var(--line);cursor:pointer}
+.cd.in:hover{border-color:var(--accent2)}
+.cd.on{background:var(--okbg);border-color:var(--ok)}
+.cd.ro{cursor:default}
+.tags{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px}
+.tags i{font:600 10px "DM Sans";font-style:normal;background:var(--ok);color:#fff;border-radius:6px;padding:1px 4px}
+.slot{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:8px;cursor:pointer}
+.slot input{width:20px;height:20px;accent-color:var(--ok)}
+@media(max-width:520px){.cd{min-height:52px;padding:4px;font-size:13px}.tags i{font-size:9px}}
+.note{color:var(--mute);font-size:13px}
+.banner{border-radius:12px;padding:10px 14px;margin-top:10px;font-weight:500}
+.banner.warn{background:#fff4e5;color:#8a5a14}
+.banner.lock{background:#fbe3e3;color:#8f2f2f}
+.banner.good{background:var(--okbg);color:#1d6e4a}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.scroll{overflow-x:auto}
+pre{background:#f6f1fc;color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:16px;white-space:pre-wrap;font:13px/1.5 ui-monospace,Menlo,monospace;max-height:520px;overflow:auto}
+.modal-bg{position:fixed;inset:0;background:rgba(43,34,51,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+.modal{background:#fff;border-radius:18px;padding:22px;max-width:420px;width:100%}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;display:none;z-index:10}
+.mod{border:2px dashed var(--accent2);background:#fffaf3}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg aria-hidden="true" style="position:absolute;right:10px;top:8px;width:150px;height:110px" viewBox="0 0 150 110" fill="none" stroke-linecap="round" stroke-width="2.5"><path d="M30 30c-6-9-20-2-13 9l13 13 13-13c7-11-7-18-13-9z" fill="#fff" stroke="#e58aab"/><path d="M60 40c-4-6-13-1-9 6l9 9 9-9c4-7-5-12-9-6z" fill="#fff" stroke="#e58aab"/><path d="M110 15l4 10 11 1-8 7 3 10-10-6-9 6 3-10-8-7 10-1z" fill="#fffbe6" stroke="#b49be0"/><path d="M90 80h24v14a10 10 0 0 1-10 10h-4a10 10 0 0 1-10-10z" fill="#fff" stroke="#7cc4a6"/><path d="M114 84h5a5 5 0 0 1 0 10h-5M97 72c0-4 4-4 4-8M106 72c0-4 4-4 4-8" stroke="#7cc4a6"/><path d="M20 85c8-8 16 8 24 0s16 8 24 0" stroke="#b49be0"/></svg>
+    <p class="forum" id="forumName" style="position:relative;max-width:70%"></p>
+    <p class="sub">Inaugural Meeting Availability Poll</p>
+    <div class="meta"><span class="pill">📍 In person · Hyderabad</span><span class="pill" id="timePill"></span><span class="pill" id="rangePill">Dates: awaiting Social Chair</span></div>
+  </header>
+
+  <div id="status" class="banner warn" style="display:none"></div>
+
+  <div class="card">
+    <div class="row">
+      <div class="names" id="names"></div>
+    </div>
+    <div id="orgPanel" class="card mod" style="display:none">
+      <h2>Social Chair · Plan the Round 🗓️</h2>
+      <h3 style="margin-top:0">Dates on offer for everyone</h3>
+      <div class="row" id="pickTools">
+        <div class="seg"><button data-how="range">↔ Select a range</button><button data-how="single">• Single dates</button></div>
+      </div>
+      <p class="note" id="pickNote"></p>
+      <div id="rangeCal"></div>
+      <div class="row" style="margin-top:12px">
+        <button id="pickBtn"></button>
+        <button class="sec" id="pickClear">Clear selection</button>
+        <button id="newRoundBtn" class="danger">Start a new round</button>
+      </div>
+    </div>
+    <div id="modPanel" class="card mod" style="display:none">
+      <h2>Social Chair · Manage Answers 🛠️</h2>
+      <div class="row" style="margin-bottom:12px">
+        <label for="editing">Whose response are you editing?</label>
+        <select id="editing"></select>
+      </div>
+      <div class="row">
+        <input type="password" id="pw" placeholder="Password" autocomplete="off">
+        <button id="lockBtn" class="sec"></button>
+        <button id="clearAllBtn" class="danger">Clear all responses</button>
+        <button id="resetBtn" class="danger">Reset poll</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="gridCard">
+    <h2 id="gridTitle">When are you free?</h2>
+    <p class="note">Tap the dates you're free, then trim the slot bubbles below (each is a full 3 hours). Saving with nothing picked means "nothing works for me" — that still counts.</p>
+    <div id="grid"></div>
+    <div class="row" style="margin-top:12px">
+      <button id="saveBtn">Save my availability</button>
+      <button id="clearBtn" class="danger">Clear my response</button>
+      <span class="note" id="dirtyNote"></span>
+    </div>
+  </div>
+
+  <div class="card" id="ideasCard">
+    <h2>What should we do next? 💡</h2>
+    <p class="note" id="ideasHint">Tap every idea you'd love to do — pick as many as you like. Votes save instantly.</p>
+    <div id="ideas"></div>
+    <div class="suggest">
+      <label for="myIdea"><b>Got another idea?</b></label>
+      <div class="row"><input id="myIdea" placeholder="e.g. Saree draping workshop" maxlength="120"><button id="saveIdea" class="sec">Add idea</button></div>
+      <div id="suggList"></div>
+    </div>
+    <h3>Top picks so far</h3>
+    <div id="topIdeas"></div>
+  </div>
+
+  <div class="card">
+    <h2>Everyone's answers 💬</h2>
+    <div class="scroll"><table id="answers"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>Results 🎉</h2>
+    <div id="resultsWrap"></div>
+    <div class="row" style="margin-top:10px">
+      <button id="copyBtn" class="sec">Copy</button>
+      <button id="xlsxBtn" class="sec">Download spreadsheet</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal">
+  <h2 id="mTitle"></h2><p id="mBody"></p>
+  <div class="row" style="justify-content:flex-end"><button class="sec" id="mNo">Cancel</button><button class="danger" id="mYes">Yes, do it</button></div>
+</div></div>
+<div class="modal-bg" id="slotBg"><div class="modal">
+  <h2 id="sTitle"></h2><p class="note">Tick every 3-hour slot you're fully free for.</p>
+  <div id="sList"></div>
+  <div class="row" style="justify-content:space-between;margin-top:14px"><div class="row"><button class="sec" id="sAll">All day</button><button class="sec" id="sNone">None</button></div><button id="sDone">Done</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Netlify storage adapter: stands in for Claude's db + downloads */
+(function(){
+  const API="/api/store"; let cache={}; const docL=[], colL=[];
+  const snapDoc=(path)=>{const d=cache[path];return {id:path.split("/").pop(),exists:d!=null,data:()=>d??undefined,metadata:{fromCache:false,hasPendingWrites:false}};};
+  const snapCol=(col)=>{const docs=Object.keys(cache).filter(k=>k.startsWith(col+"/")&&k.split("/").length===col.split("/").length+1).sort().map(snapDoc);return {docs,size:docs.length,empty:!docs.length,docChanges:()=>[],metadata:{fromCache:false,hasPendingWrites:false}};};
+  const emit=()=>{docL.forEach(l=>l.cb(snapDoc(l.path)));colL.forEach(l=>l.cb(snapCol(l.path)));};
+  async function pull(){const r=await fetch(API,{cache:"no-store"}); if(!r.ok) throw {code:"unavailable"}; cache=await r.json()||{}; emit();}
+  let timer=null; const start=()=>{ if(!timer){ pull().catch(()=>{}); timer=setInterval(()=>pull().catch(()=>{}),10000);} };
+  const doc=(path)=>({id:path.split("/").pop(),path,
+    async get(){await pull().catch(()=>{});return snapDoc(path);},
+    async set(data){const r=await fetch(API+"?path="+encodeURIComponent(path),{method:"PUT",headers:{"content-type":"application/json"},body:JSON.stringify(data)}); if(!r.ok) throw {code:"invalid_argument"}; cache[path]=data; emit();},
+    async delete(){const r=await fetch(API+"?path="+encodeURIComponent(path),{method:"DELETE"}); if(!r.ok) throw {code:"unavailable"}; delete cache[path]; emit();},
+    onSnapshot(cb){const l={path,cb};docL.push(l);start();return ()=>docL.splice(docL.indexOf(l),1);}});
+  const collection=(path)=>({path,doc:(id)=>doc(path+"/"+id),
+    async get(){await pull().catch(()=>{});return snapCol(path);},
+    onSnapshot(cb){const l={path,cb};colL.push(l);start();return ()=>colL.splice(colL.indexOf(l),1);}});
+  const db={doc,collection};
+  const downloads={async save({filename,data}){const blob=data instanceof Blob?data:new Blob([data]);const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);return {status:"saved"};}};
+  window.claude={use:async(n)=>n==="db"?db:n==="downloads"?downloads:null};
+})();
+</script>
+<script>
+/* ===== Edit these when the forum name is final ===== */
+const FORUM_NAME = "Spousal Social Schedule";
+const TIME_BLOCK = "Any 3-hour slot · Morning 9–12 · Afternoon 1–4 · Evening 6–9 IST";
+/* =================================================== */
+const SLOTS=[["M","Morning","9 AM–12 PM"],["A","Afternoon","1–4 PM"],["E","Evening","6–9 PM"]];
+const IDEAS=[
+ {cat:"☕ Spill The Tea",sub:"Catch-Ups",items:["☕ Bean There · Coffee Morning","🥞 Brunch Bunch · Brunch Together","🍽️ Dinner Divas · Dinner Out"]},
+ {cat:"🌱 Bloom Club",sub:"Grow Together",items:["🎨 Brush & Bubbly · Art Class","🍝 Whisk Takers · Culinary Workshop","💰 Money Moves · Wealth Planning","🥑 Fork Yeah! · Exploring Nutrition"]},
+ {cat:"🎉 Play Date",sub:"Just Play",items:["🏓 Game, Set, Sisters · Pick A Sport","💃 Twirl Squad · Dance Workshop","🎲 Dice & Spice · Game Night"]},
+ {cat:"💛 Hearts In Action",sub:"Give Back",items:["🧺 Share The Love · Food & Clothes Donation","🌟 Little Big Dreams · Mentor Young Children"]},
+ {cat:"✨ Our Thing",sub:"Signature Traditions",items:["🎂 Cake & Candle Crew · Birthday Rituals","🏆 The Forum-y Awards · Year-End Awards Night"]}
+];
+let ideasData={}; // name -> {picks:[], own:[]}
+const ROSTER = ["Deepu","Shruti","Pranathi","Pranavi","Lakshmi","Archana","Mounika","Nikethana"];
+const MOD = "Mounika", PASSWORD = "mounika2026";
+const ORGS = ["Mounika"]; // can choose which dates are offered
+const WD = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+let db=null, config={offered:[],title:"Forum Secret Santa",locked:false}, responses={}; // name -> {dates:[],updatedAt}
+let me="", editing="", draft=new Set(), dirty=false, loaded=false;
+const $=id=>document.getElementById(id);
+$("forumName").textContent=FORUM_NAME; $("timePill").textContent="🕘 "+TIME_BLOCK;
+
+/* ---------- dates ---------- */
+function parse(s){const[y,m,d]=s.split("-").map(Number);return new Date(Date.UTC(y,m-1,d));}
+function iso(d){return d.toISOString().slice(0,10);}
+let viewMonth=null; const openDates=new Set(); let justAdded=null; const pickMode=false; let pickDraft=new Set(), pickHow="range", anchor=null, pickDirty=false, rangeView=null;
+function todayIso(){const t=new Date();return iso(new Date(Date.UTC(t.getFullYear(),t.getMonth(),t.getDate())));}
+function dateList(){return [...(config.offered||[])].sort();}
+function range(){const d=dateList(); return d.length?[d[0],d[d.length-1]]:[todayIso(),todayIso()];}
+function label(s){const d=parse(s);return WD[d.getUTCDay()]+" "+d.getUTCDate()+" "+MON[d.getUTCMonth()]+" "+d.getUTCFullYear();}
+function slotList(){return dateList().flatMap(d=>SLOTS.map(x=>d+"|"+x[0]));}
+function labelK(k){const[d,c]=k.split("|");const sl=SLOTS.find(x=>x[0]===c);return label(d)+" · "+sl[1]+" ("+sl[2]+")";}
+function short(s){const d=parse(s);return {wd:WD[d.getUTCDay()],dt:d.getUTCDate()+" "+MON[d.getUTCMonth()]};}
+function weekKey(s){const d=parse(s);const off=(d.getUTCDay()+6)%7;d.setUTCDate(d.getUTCDate()-off);return iso(d);}
+
+/* ---------- state helpers ---------- */
+const responded=n=>!!responses[n];
+const datesOf=n=>{const valid=new Set(slotList());return (responses[n]?.dates||[]).filter(x=>valid.has(x));};
+const isMod=()=>me===MOD;
+const isOrg=()=>ORGS.includes(me);
+const target=()=>isMod()?editing:me;
+const canEdit=()=>!!db && !!me && (isMod() || !config.locked);
+
+/* ---------- render ---------- */
+function render(){
+  const dates=dateList();
+  $("rangePill").textContent=dates.length?"📅 "+dates.length+" date"+(dates.length>1?"s":"")+" on offer · "+short(dates[0]).dt+" → "+short(dates[dates.length-1]).dt:"📅 Dates coming soon";
+  $("orgPanel").style.display=isOrg()?"block":"none";
+  if(isOrg()){ if(!pickDirty) pickDraft=new Set(config.offered||[]);
+    $("pickBtn").textContent="✓ Save offered dates ("+pickDraft.size+")"; $("pickBtn").disabled=!pickDirty;
+    document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.how===pickHow));
+    $("pickNote").textContent=pickHow==="range"?(anchor?"Now tap the LAST date of the range ("+short(anchor).wd+" "+short(anchor).dt+" → ?)":"Tap the first date, then the last — everything in between is added. Repeat for more ranges."):"Tap dates one by one to add or remove them.";
+    renderRangeCal(); }
+  // who select
+  $("names").innerHTML=`<span class="nlab">Tap your name</span>`+ROSTER.map(n=>`<button class="nm ${n===me?"me":""}" data-n="${n}">${n===me?"✓ ":""}${n}</button>`).join("");
+  // status banner
+  const st=$("status");
+  if(!db){st.style.display="block";st.className="banner warn";st.textContent=loaded?"Can't reach shared storage right now — answers may be out of date.":"Connecting to shared storage…";}
+  else if(config.locked){st.style.display="block";st.className="banner lock";st.textContent="🔒 Responses are locked by the Social Chair. Results and download are still available.";}
+  else st.style.display="none";
+  // moderator panel
+  $("modPanel").style.display=isMod()?"block":"none";
+  if(isMod()){
+    const ed=$("editing"), cur=editing; ed.innerHTML="";
+    ROSTER.forEach(n=>ed.add(new Option(n+(n===MOD?" (you)":"")+" — "+(responded(n)?"responded ✓":"waiting…"),n)));
+    ed.value=cur||MOD;
+    $("lockBtn").textContent=config.locked?"🔓 Unlock responses":"🔒 Lock responses";
+  }
+  // roster
+  // grid
+  const t=target();
+  if(!dirty){ draft=new Set(t?datesOf(t):[]); openDates.clear(); }
+  const editable=canEdit();
+  const whose=isMod()&&t!==MOD?t+"'s":"my";
+  $("gridTitle").textContent=!me?"Tap your name above first":(isMod()&&t!==MOD?"Editing "+t+"'s availability":"When are you free, "+me+"?");
+  $("saveBtn").textContent=isMod()&&t!==MOD?`Save ${t}'s availability`:"Save my availability";
+  $("clearBtn").textContent=isMod()&&t!==MOD?`Clear ${t}'s response`:"Clear my response";
+  $("saveBtn").disabled=!editable; $("clearBtn").disabled=!editable||!responded(t);
+  $("dirtyNote").textContent=dirty?"Unsaved changes":(t&&responded(t)?"Saved ✓":"");
+  {
+    const inR=new Set(dates); const [rs,re]=pickMode?[todayIso(),iso(new Date(Date.UTC(new Date().getFullYear()+1,new Date().getMonth(),1)))]:range();
+    const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const first=parse(rs), last=parse(re);
+    const minM=first.getUTCFullYear()*12+first.getUTCMonth(), maxM=last.getUTCFullYear()*12+last.getUTCMonth();
+    if(viewMonth===null||viewMonth<minM||viewMonth>maxM) viewMonth=minM;
+    if(!pickMode&&!dates.length){$("grid").innerHTML=`<p class="note" style="text-align:center;padding:30px 0">🗓️ ${isOrg()?"Choose the dates on offer in the Plan the Round calendar above, then save.":"Dates for this round are coming soon — check back shortly!"}</p>`;}
+    else {
+    const y=Math.floor(viewMonth/12), mo=viewMonth%12, tIso=todayIso();
+    let html=`<div class="ap"><div class="aphead"><div><span class="apm">${MN[mo]}</span> <span class="apy">${y}</span></div>
+      <div class="apnav"><button class="navb" data-nav="-1" ${viewMonth<=minM?"disabled":""}>‹</button><button class="navb" data-nav="1" ${viewMonth>=maxM?"disabled":""}>›</button></div></div>
+      <div class="apgrid">`+["M","T","W","T","F","S","S"].map(w=>`<div class="apw">${w}</div>`).join("");
+    const lead=(new Date(Date.UTC(y,mo,1)).getUTCDay()+6)%7; for(let i=0;i<lead;i++) html+=`<div class="apc"></div>`;
+    const dim=new Date(Date.UTC(y,mo+1,0)).getUTCDate();
+    for(let dd=1;dd<=dim;dd++){const d=iso(new Date(Date.UTC(y,mo,dd)));
+      if(pickMode){const ok=d>=tIso; html+=`<div class="apc ${ok?"cd pk":"dis"}" ${ok?`data-p="${d}"`:""}><span class="apn ${pickDraft.has(d)?"offer":""} ${d===anchor?"anchor":""} ${d===tIso?"today":""}">${dd}</span></div>`; continue;}
+      const ok=inR.has(d);
+      const picked=SLOTS.filter(x=>draft.has(d+"|"+x[0])); const isSel=picked.length||openDates.has(d);
+      html+=`<div class="apc ${ok?"cd in":"dis"} ${ok&&!editable?"ro":""}" ${ok?`data-d="${d}"`:""}><span class="apn ${isSel?(picked.length?"sel":"selempty"):""} ${d===tIso?"today":""}">${dd}</span><div class="dots">${SLOTS.map(x=>`<i class="${draft.has(d+"|"+x[0])?"f":""}"></i>`).join("")}</div></div>`;}
+    if(pickMode){ html+=`</div></div><p class="note" style="text-align:center">${pickDraft.size} date${pickDraft.size===1?"":"s"} selected to offer</p>`; $("grid").innerHTML=html; }
+    else {
+    const selDates=[...new Set([...[...draft].map(k=>k.split("|")[0]),...openDates])].filter(d=>inR.has(d)).sort();
+    html+=`</div></div><div class="sel-list"><h3>${selDates.length?"Your dates — tap the slots you're fully free":"Tap dates on the calendar to add them"}</h3>`+
+      selDates.map(d=>{const sh=short(d); const none=!SLOTS.some(x=>draft.has(d+"|"+x[0]));
+        return `<div class="srow ${none?"warnrow":""} ${d===justAdded?"new":""}"><div class="sdate"><b>${sh.wd}</b> ${sh.dt}</div><div class="bubs">`+
+        SLOTS.map(x=>`<button class="bub ${draft.has(d+"|"+x[0])?"on":""}" data-k="${d}|${x[0]}" ${editable?"":"disabled"}>${x[1]}<small>${x[2]}</small></button>`).join("")+
+        `</div>${editable?`<button class="rmd" data-d="${d}" aria-label="Remove date">×</button>`:""}</div>`;}).join("")+`</div>`;
+    $("grid").innerHTML=html; }}
+  }
+  // answers table
+  $("answers").innerHTML="<tr><th>Name</th><th>Status</th><th>Dates free</th></tr>"+ROSTER.map(n=>{
+    if(!responded(n)) return `<tr><td>${n}</td><td>⏳ Waiting</td><td class="note">—</td></tr>`;
+    const ds=datesOf(n); return `<tr><td>${n}</td><td>✓ Responded</td><td>${ds.length?ds.map(labelK).join("<br>"):"<em>No dates work for them</em>"}</td></tr>`;
+  }).join("");
+  // results
+  const all=ROSTER.every(responded);
+  $("resultsWrap").innerHTML=all&&dates.length?`<div class="banner good">All 8 are in! Copy this and share it with the forum.</div><pre>${esc(resultsText())}</pre>`
+    :`<p class="note">Results appear automatically once all 8 have responded (${ROSTER.filter(responded).length}/8 so far). The live answers above and the spreadsheet are available any time.</p>`;
+  $("copyBtn").disabled=!(all&&dates.length);
+  renderIdeas();
+}
+function renderRangeCal(){
+  const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const t=new Date(), minM=t.getFullYear()*12+t.getMonth(), maxM=minM+12;
+  if(rangeView===null){const o=dateList(); rangeView=o.length?Math.max(minM,parse(o[0]).getUTCFullYear()*12+parse(o[0]).getUTCMonth()):minM;}
+  const y=Math.floor(rangeView/12), mo=rangeView%12, tIso=todayIso();
+  let html=`<div class="ap"><div class="aphead"><div><span class="apm">${MN[mo]}</span> <span class="apy">${y}</span></div>
+    <div class="apnav"><button class="navb" data-rnav="-1" ${rangeView<=minM?"disabled":""}>‹</button><button class="navb" data-rnav="1" ${rangeView>=maxM?"disabled":""}>›</button></div></div>
+    <div class="apgrid">`+["M","T","W","T","F","S","S"].map(w=>`<div class="apw">${w}</div>`).join("");
+  const lead=(new Date(Date.UTC(y,mo,1)).getUTCDay()+6)%7; for(let i=0;i<lead;i++) html+=`<div class="apc"></div>`;
+  const dim=new Date(Date.UTC(y,mo+1,0)).getUTCDate();
+  for(let dd=1;dd<=dim;dd++){const d=iso(new Date(Date.UTC(y,mo,dd))); const ok=d>=tIso;
+    html+=`<div class="apc ${ok?"cd pk":"dis"}" ${ok?`data-p="${d}"`:""}><span class="apn ${pickDraft.has(d)?"offer":""} ${d===anchor?"anchor":""} ${d===tIso?"today":""}">${dd}</span></div>`;}
+  html+=`</div></div><p class="note" style="text-align:center">${pickDraft.size} date${pickDraft.size===1?"":"s"} on offer${pickDirty?" · unsaved":""}</p>`;
+  $("rangeCal").innerHTML=html;
+}
+$("rangeCal").onclick=e=>{const nb=e.target.closest("[data-rnav]"); if(nb){if(!nb.disabled){rangeView+=Number(nb.dataset.rnav); renderRangeCal();} return;}
+  const pk=e.target.closest(".cd.pk"); if(!pk)return; const d=pk.dataset.p;
+  if(pickHow==="single"){pickDraft.has(d)?pickDraft.delete(d):pickDraft.add(d);}
+  else if(!anchor){anchor=d;}
+  else {let [a,b]=anchor<=d?[anchor,d]:[d,anchor]; for(let x=parse(a);iso(x)<=b;x.setUTCDate(x.getUTCDate()+1)) pickDraft.add(iso(x)); anchor=null;}
+  pickDirty=true; render();};
+function renderIdeas(){
+  const mine=ideasData[me]||{picks:[],own:[]};
+  $("ideasHint").textContent=me?"Tap every idea you'd love to do — pick as many as you like. Votes save instantly.":"Tap your name at the top to vote.";
+  const voters=it=>ROSTER.filter(n=>(ideasData[n]?.picks||[]).includes(it));
+  $("ideas").innerHTML=IDEAS.map((c,ci)=>`<div class="icat c${ci}"><div class="ihead"><b>${c.cat}</b> <span class="note">${c.sub}</span></div><div class="ichips">`+
+    c.items.map(it=>{const v=voters(it);return `<button class="ich ${mine.picks.includes(it)?"on":""}" data-i="${esc(it)}" title="${v.join(", ")}" ${me&&db?"":"disabled"}>${esc(it)}${v.length?`<span class="cnt">${v.length}</span>`:""}</button>`;}).join("")+`</div></div>`).join("");
+  const own=ROSTER.flatMap(n=>(ideasData[n]?.own||[]).map(t=>({n,t})));
+  $("suggList").innerHTML=own.map(o=>`<span class="sugg">💭 ${esc(o.t)} <small>— ${o.n}</small>${o.n===me?` <button class="rmown" data-t="${esc(o.t)}">×</button>`:""}</span>`).join("");
+  const tally={}; ROSTER.forEach(n=>(ideasData[n]?.picks||[]).forEach(i=>(tally[i]=tally[i]||[]).push(n)));
+  const top=Object.entries(tally).sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0])).slice(0,5);
+  $("topIdeas").innerHTML=top.length?top.map(([i,ns],k)=>`<div class="topr"><span class="medal">${["🥇","🥈","🥉","4","5"][k]}</span><b>${esc(i)}</b> <span class="note">${ns.length}/8 · ${ns.join(", ")}</span></div>`).join(""):`<p class="note">No votes yet — be the first!</p>`;
+}
+async function saveIdeas(){const d=ideasData[me]; try{await db.doc("ideas/"+me).set({picks:d.picks,own:d.own,updatedAt:Date.now()});}catch(e){toast("Couldn't save your vote — try again");}}
+$("ideas").onclick=e=>{const b=e.target.closest(".ich"); if(!b||!me||!db)return; const d=ideasData[me]=ideasData[me]?{picks:[...ideasData[me].picks||[]],own:[...ideasData[me].own||[]]}:{picks:[],own:[]};
+  const it=b.dataset.i.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">"); d.picks.includes(it)?d.picks=d.picks.filter(x=>x!==it):d.picks.push(it); renderIdeas(); saveIdeas();};
+$("saveIdea").onclick=()=>{const t=$("myIdea").value.trim(); if(!t)return; if(!me){toast("Tap your name first");return;} if(!db)return;
+  const d=ideasData[me]={picks:[...(ideasData[me]?.picks||[])],own:[...(ideasData[me]?.own||[]),t]}; $("myIdea").value=""; renderIdeas(); saveIdeas(); toast("Idea added 💡");};
+$("suggList").onclick=e=>{const b=e.target.closest(".rmown"); if(!b)return; const t=b.dataset.t.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">");
+  confirmBox("Remove your idea?",`This removes "${t}" from the ideas list.`,()=>{ideasData[me]={picks:[...(ideasData[me]?.picks||[])],own:(ideasData[me]?.own||[]).filter(x=>x!==t)}; renderIdeas(); saveIdeas();});};
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+/* ---------- results ---------- */
+function tiers(){
+  const t={all:[],m1:[],m2:[]};
+  slotList().forEach(d=>{const missing=ROSTER.filter(n=>!datesOf(n).includes(d)); if(missing.length===0)t.all.push({d,missing});else if(missing.length===1)t.m1.push({d,missing});else if(missing.length===2)t.m2.push({d,missing});});
+  return t;
+}
+function resultsText(){
+  const t=tiers(), L=[];
+  L.push(FORUM_NAME+" – Inaugural Meeting Availability Poll");
+  L.push("In person, Hyderabad | "+TIME_BLOCK);
+  L.push("Dates offered: "+dateList().map(d=>short(d).wd+" "+short(d).dt).join(", "));
+  L.push("");
+  L.push("1. ALL 8 AVAILABLE");
+  L.push(...(t.all.length?t.all.map(x=>"   "+labelK(x.d)):["   None"]));
+  L.push("");
+  L.push("2. NEAR MISS – 1 UNAVAILABLE");
+  L.push(...(t.m1.length?t.m1.map(x=>"   "+labelK(x.d)+" – missing: "+x.missing[0]):["   None"]));
+  L.push("");
+  L.push("3. NEAR MISS – 2 UNAVAILABLE");
+  L.push(...(t.m2.length?t.m2.map(x=>"   "+labelK(x.d)+" – missing: "+x.missing.join(", ")):["   None"]));
+  if(!t.all.length){
+    const merged=[...t.m1,...t.m2].sort((a,b)=>a.missing.length-b.missing.length||a.d.localeCompare(b.d));
+    L.push("");
+    L.push("FALLBACK – BEST AVAILABLE DATES (no date works for all 8)");
+    L.push(...(merged.length?merged.map(x=>"   "+labelK(x.d)+" – "+(8-x.missing.length)+"/8 – missing: "+x.missing.join(", ")):["   None"]));
+  }
+  const none=ROSTER.filter(n=>responded(n)&&!datesOf(n).length);
+  if(none.length){L.push("");L.push("No dates work for: "+none.join(", "));}
+  const tally={}; ROSTER.forEach(n=>(ideasData[n]?.picks||[]).forEach(i=>(tally[i]=tally[i]||[]).push(n)));
+  const top=Object.entries(tally).sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0])).slice(0,5);
+  
+  if(top.length){L.push("");L.push("TOP IDEAS FOR NEXT SOCIALS");top.forEach(([i,ns],k)=>L.push("   "+(k+1)+". "+i+" – "+ns.length+"/8 ("+ns.join(", ")+")"));}
+  const own=ROSTER.flatMap(n=>(ideasData[n]?.own||[]).map(t=>t+" ("+n+")")); if(own.length){L.push("");L.push("MEMBER SUGGESTIONS");own.forEach(o=>L.push("   - "+o));}
+  return L.join("\n");
+}
+
+/* ---------- events ---------- */
+$("names").onclick=e=>{const b=e.target.closest(".nm"); if(!b)return; const pick=()=>{me=b.dataset.n; editing=MOD; dirty=false; openDates.clear(); render();}; if(dirty&&b.dataset.n!==me) confirmBox("Switch name without saving?",`Your unsaved ticks for ${target()} will be discarded.`,pick); else pick();};
+$("editing").onchange=e=>{openDates.clear(); if(dirty){confirmBox("Switch without saving?",`You have unsaved ticks for ${target()}. Switching will discard them.`,()=>{editing=e.target.value;dirty=false;render();},()=>{e.target.value=editing;});} else {editing=e.target.value;render();} };
+$("grid").addEventListener("click",e=>{const nb=e.target.closest("[data-nav]"); if(nb&&!nb.disabled){viewMonth+=Number(nb.dataset.nav); render(); e.stopImmediatePropagation();}});
+$("grid").onclick=e=>{if(e.target.closest("[data-nav]"))return;
+
+  if(!canEdit())return;
+  const bub=e.target.closest(".bub");
+  if(bub){justAdded=null; const k=bub.dataset.k; draft.has(k)?draft.delete(k):draft.add(k); openDates.add(k.split("|")[0]); dirty=true; render(); return;}
+  const rm=e.target.closest(".rmd"); if(rm){const d=rm.dataset.d; SLOTS.forEach(x=>draft.delete(d+"|"+x[0])); openDates.delete(d); dirty=true; render(); return;}
+  const el=e.target.closest(".cd.in"); if(!el)return; const d=el.dataset.d;
+  const has=SLOTS.some(x=>draft.has(d+"|"+x[0]))||openDates.has(d);
+  if(has){SLOTS.forEach(x=>draft.delete(d+"|"+x[0])); openDates.delete(d);} else {SLOTS.forEach(x=>draft.add(d+"|"+x[0])); openDates.add(d); justAdded=d;}
+  dirty=true; render();};
+$("slotBg").onclick=e=>{if(e.target.id==="slotBg")$("slotBg").style.display="none";};
+$("saveBtn").onclick=async()=>{const t=target(); if(!t||!canEdit())return;
+  const dates=[...draft].sort(); try{await db.doc("responses/"+t).set({dates,updatedAt:Date.now(),by:me}); responses[t]={dates}; dirty=false; toast(dates.length?`Saved ${dates.length} slot${dates.length>1?"s":""} for ${t} ✓`:`Saved: no dates work for ${t}`); render();}catch(err){toast("Couldn't save — try again");}};
+$("clearBtn").onclick=()=>{const t=target(); confirmBox(`Clear ${t}'s response?`,`This deletes ${t}'s saved dates and marks ${t} as not yet responded.`,async()=>{try{await db.doc("responses/"+t).delete(); delete responses[t]; dirty=false; render(); toast(`${t}'s response cleared`);}catch(e){toast("Couldn't clear — try again");}});};
+document.querySelector(".seg").onclick=e=>{const b=e.target.closest("button"); if(!b)return; pickHow=b.dataset.how; anchor=null; render();};
+$("pickClear").onclick=()=>{pickDraft=new Set(); anchor=null; pickDirty=true; render();};
+$("pickBtn").onclick=async()=>{anchor=null;
+  const offered=[...pickDraft].sort(); try{await db.doc("config/poll").set({...config,offered}); config={...config,offered}; pickDirty=false; viewMonth=null; dirty=false; render(); toast(offered.length+" dates on offer ✓");}catch(x){toast("Couldn't save dates");}};
+$("newRoundBtn").onclick=()=>confirmBox("Start a new round?",`This clears the saved dates of all 8 people (${ROSTER.join(", ")}) and removes the dates on offer, so you can pick fresh ones. Idea votes stay.`,async()=>{await clearAll(); try{await db.doc("config/poll").set({...config,offered:[],locked:false}); config={...config,offered:[],locked:false};}catch(e){} pickDraft=new Set(); pickDirty=false; viewMonth=null; rangeView=null; render(); toast("New round — pick the dates on offer");});
+$("lockBtn").onclick=async()=>{ if($("pw").value!==PASSWORD){toast("Wrong password");return;} $("pw").value="";
+  try{const locked=!config.locked; await db.doc("config/poll").set({...config,locked}); config.locked=locked; render(); toast(locked?"Responses locked 🔒":"Responses unlocked 🔓");}catch(x){toast("Couldn't change lock");}};
+$("clearAllBtn").onclick=()=>confirmBox("Clear ALL responses?",`This deletes the saved answers of all 8 people: ${ROSTER.join(", ")}. The date range and lock stay as they are.`,async()=>{await clearAll();toast("All responses cleared");});
+$("resetBtn").onclick=()=>confirmBox("Reset the whole poll?",`This deletes all 8 people's answers (${ROSTER.join(", ")}), removes the dates on offer and the round name and unlocks the poll — a fresh start.`,async()=>{await clearAll(); await db.doc("config/poll").set({offered:[],title:"",locked:false}); config={offered:[],title:"",locked:false}; render(); toast("Poll reset");});
+async function clearAll(){for(const n of ROSTER){try{await db.doc("responses/"+n).delete();}catch(e){}} responses={}; dirty=false; render();}
+$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(resultsText());toast("Copied — paste it into your message ✓");}catch(e){toast("Copy blocked — select the text and copy manually");}};
+$("xlsxBtn").onclick=async()=>{const dl=await claude.use("downloads"); if(!dl){toast("Downloads aren't available in this view");return;}
+  try{await dl.save({filename:"spousal-forum-availability.xlsx",data:buildXlsx()});}catch(e){if(e.code!=="declined")toast("Couldn't download: "+(e.message||e.code));}};
+
+/* ---------- modal + toast ---------- */
+function confirmBox(title,body,yes,no){$("mTitle").textContent=title;$("mBody").textContent=body;$("modalBg").style.display="flex";
+  $("mYes").onclick=()=>{$("modalBg").style.display="none";yes();}; $("mNo").onclick=()=>{$("modalBg").style.display="none";no&&no();};}
+let tt; function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(tt);tt=setTimeout(()=>t.style.display="none",2600);}
+
+/* ---------- storage + 10s poll ---------- */
+function applyRemote(cfg,resp){ if(cfg) config={offered:Array.isArray(cfg.offered)?cfg.offered:[],title:cfg.title??"Forum Secret Santa",locked:!!cfg.locked}; if(resp) responses=resp; loaded=true; render(); }
+async function refresh(){ if(!db)return; try{
+  const [c,r]=await Promise.all([db.doc("config/poll").get(),db.collection("responses").get()]);
+  const resp={}; r.docs.forEach(d=>{if(ROSTER.includes(d.id))resp[d.id]=d.data();});
+  applyRemote(c.exists?c.data():{offered:[],title:"Forum Secret Santa",locked:false},resp);
+}catch(e){} }
+(async()=>{
+  render();
+  db=await claude.use("db");
+  if(!db){loaded=true;render();return;}
+  db.doc("config/poll").onSnapshot(s=>applyRemote(s.exists?s.data():{offered:[],title:"Forum Secret Santa",locked:false},null),()=>{});
+  db.collection("responses").onSnapshot(s=>{const resp={};s.docs.forEach(d=>{if(ROSTER.includes(d.id))resp[d.id]=d.data();});applyRemote(null,resp);},()=>{});
+  db.collection("ideas").onSnapshot(s=>{const d={};s.docs.forEach(x=>{if(ROSTER.includes(x.id))d[x.id]=x.data();});ideasData=d;renderIdeas();},()=>{});
+  setInterval(async()=>{refresh(); try{const s=await db.collection("ideas").get();const d={};s.docs.forEach(x=>{if(ROSTER.includes(x.id))d[x.id]=x.data();});ideasData=d;renderIdeas();}catch(e){}},10000);
+})();
+
+/* ---------- minimal client-side xlsx writer ---------- */
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+function crc32(b){let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=CRC[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zip(files){const enc=new TextEncoder(),parts=[],cen=[];let off=0;
+  for(const [name,txt] of files){const n=enc.encode(name),d=enc.encode(txt),c=crc32(d);
+    const h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint32(14,c,true);h.setUint32(18,d.length,true);h.setUint32(22,d.length,true);h.setUint16(26,n.length,true);
+    parts.push(new Uint8Array(h.buffer),n,d);
+    const ce=new DataView(new ArrayBuffer(46));ce.setUint32(0,0x02014b50,true);ce.setUint16(4,20,true);ce.setUint16(6,20,true);ce.setUint32(16,c,true);ce.setUint32(20,d.length,true);ce.setUint32(24,d.length,true);ce.setUint16(28,n.length,true);ce.setUint32(42,off,true);
+    cen.push(new Uint8Array(ce.buffer),n); off+=30+n.length+d.length;}
+  const cs=cen.reduce((a,b)=>a+b.length,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+  return new Blob([...parts,...cen,new Uint8Array(e.buffer)]);}
+const x=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function col(i){let s="";i++;while(i){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26);}return s;}
+function sheetXml(rows,widths){
+  const r=rows.map((row,ri)=>`<row r="${ri+1}">`+row.map((v,ci)=>{const ref=col(ci)+(ri+1);if(v===null||v===undefined||v==="")return "";
+    return typeof v==="number"?`<c r="${ref}"><v>${v}</v></c>`:`<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${x(v)}</t></is></c>`;}).join("")+"</row>").join("");
+  const cols=widths?`<cols>${widths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join("")}</cols>`:"";
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">${cols}<sheetData>${r}</sheetData></worksheet>`;}
+function buildXlsx(){
+  const dates=slotList();
+  const g=[["Name",...dates.map(labelK),"Slots free"]];
+  ROSTER.forEach(n=>{const ds=datesOf(n);g.push([n+(responded(n)?"":" (not responded)"),...dates.map(d=>ds.includes(d)?"✓":"✗"),ds.length]);});
+  g.push(["Total available",...dates.map(d=>ROSTER.filter(n=>datesOf(n).includes(d)).length),""]);
+  const lines=ROSTER.every(responded)?resultsText().split("\n"):["Not all 8 have responded yet ("+ROSTER.filter(responded).length+"/8) — tiers below are provisional.","",...resultsText().split("\n")];
+  const s2=lines.map(l=>[l]);
+  const wb=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Availability grid" sheetId="1" r:id="rId1"/><sheet name="Results" sheetId="2" r:id="rId2"/></sheets></workbook>`;
+  return zip([
+    ["[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`],
+    ["_rels/.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ["xl/workbook.xml",wb],
+    ["xl/_rels/workbook.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/></Relationships>`],
+    ["xl/worksheets/sheet1.xml",sheetXml(g,[22,...dates.map(()=>30),11])],
+    ["xl/worksheets/sheet2.xml",sheetXml(s2,[90])]
+  ]);
+}
+</script>
+</body>
+</html>
