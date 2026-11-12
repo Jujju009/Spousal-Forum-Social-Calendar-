@@ -90,6 +90,23 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .sugg{background:#fff;border:1.5px dashed var(--accent2);border-radius:14px;padding:6px 10px;font-size:13px}
 .rmown{background:transparent;color:var(--mute);padding:0 4px}
 .topr{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line)} .medal{width:22px;text-align:center}
+table.mx{border-collapse:separate;border-spacing:3px;width:auto;font-size:13px}
+table.mx th,table.mx td{border:0;padding:0}
+.mx .nmcol{text-align:left;padding-right:8px;font-weight:700;white-space:nowrap;position:sticky;left:0;background:#fff;z-index:1}
+.mx .dcol{text-align:center;min-width:38px;line-height:1.1;padding-bottom:4px}
+.mx .dcol span,.mx .dcol small{display:block;font-size:10px;color:var(--mute);font-weight:600}.mx .dcol b{display:block;font-size:15px}
+.mx .cell{width:38px;height:34px;border-radius:10px;background:#f6f1f8;text-align:center;vertical-align:middle;font-weight:800}
+.mx .cell.full{background:var(--ok);color:#fff;font-size:16px}
+.mx .cell.part{background:var(--okbg)}
+.mx .cell i,.mxkey i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#d9cfe0;margin:0 1px}
+.mx .cell i.f,.mxkey i.f{background:var(--ok)}
+.mx .waitcell{color:#9a6420;background:#fff4e5;border-radius:10px;padding:0 10px;font-size:12px}
+.mx .nonecell{color:var(--mute);background:#f6f1f8;border-radius:10px;padding:0 10px;font-size:12px;font-style:italic}
+.mx tr.tot .cell{background:transparent;color:var(--mute);height:26px}
+.mx tr.tot .cell.best{background:var(--accent2);color:#fff}
+.mxkey{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--mute);margin-top:10px}
+.mxkey .k{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:20px;border-radius:6px;margin-right:4px;font-size:11px}
+.mxkey .k.full{background:var(--ok);color:#fff}.mxkey .k.part{background:var(--okbg);padding:0 3px}.mxkey .k.best{background:var(--accent2);color:#fff}
 .ap{max-width:440px;margin:6px auto 0;font-family:-apple-system,"SF Pro Text","DM Sans",system-ui,sans-serif}
 .aphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .apm{font:700 32px Caveat,cursive;color:var(--accent)} .apy{font:700 32px Caveat,cursive;color:#9a8cb4}
@@ -206,7 +223,8 @@ pre{background:#f6f1fc;color:var(--ink);border:1.5px solid var(--line);border-ra
 
   <div class="card">
     <h2>Everyone's answers 💬</h2>
-    <div class="scroll"><table id="answers"></table></div>
+    <div class="scroll"><table id="answers" class="mx"></table></div>
+    <div class="mxkey"><span><b class="k full">✓</b> Free all day</span><span><b class="k part"><i class="f"></i><i></i><i class="f"></i></b> Some slots (Morning · Afternoon · Evening)</span><span><b class="k best">8</b> Most free</span></div>
   </div>
 
   <div class="card">
@@ -363,10 +381,24 @@ function render(){
     $("grid").innerHTML=html; }}
   }
   // answers table
-  $("answers").innerHTML="<tr><th>Name</th><th>Status</th><th>Dates free</th></tr>"+ROSTER.map(n=>{
-    if(!responded(n)) return `<tr><td>${n}</td><td>⏳ Waiting</td><td class="note">—</td></tr>`;
-    const ds=datesOf(n); return `<tr><td>${n}</td><td>✓ Responded</td><td>${ds.length?ds.map(labelK).join("<br>"):"<em>No dates work for them</em>"}</td></tr>`;
-  }).join("");
+  { const ds=dateList();
+    if(!ds.length){ $("answers").innerHTML=`<tr><td class="note">Answers will show here once dates are on offer.</td></tr>`; }
+    else {
+      let h=`<thead><tr><th class="nmcol"></th>`+ds.map(d=>{const x=short(d);return `<th class="dcol"><span>${x.wd}</span><b>${x.dt.split(" ")[0]}</b><small>${x.dt.split(" ")[1]}</small></th>`;}).join("")+`</tr></thead><tbody>`;
+      ROSTER.forEach(n=>{
+        if(!responded(n)){ h+=`<tr class="wait"><td class="nmcol">${n}</td><td colspan="${ds.length}" class="waitcell">⏳ Yet to respond</td></tr>`; return; }
+        const mine=datesOf(n);
+        if(!mine.length){ h+=`<tr><td class="nmcol">${n}</td><td colspan="${ds.length}" class="nonecell">No dates work this time</td></tr>`; return; }
+        h+=`<tr><td class="nmcol">${n}</td>`+ds.map(d=>{const on=SLOTS.filter(x=>mine.includes(d+"|"+x[0]));
+          if(on.length===3) return `<td class="cell full" title="Free all day">✓</td>`;
+          if(!on.length) return `<td class="cell"></td>`;
+          return `<td class="cell part" title="${on.map(x=>x[1]).join(", ")}">${SLOTS.map(x=>`<i class="${on.includes(x)?"f":""}"></i>`).join("")}</td>`;}).join("")+`</tr>`;
+      });
+      const cnt=d=>ROSTER.filter(n=>datesOf(n).some(k=>k.startsWith(d+"|"))).length;
+      const mx=Math.max(...ds.map(cnt));
+      h+=`<tr class="tot"><td class="nmcol">Free</td>`+ds.map(d=>{const c=cnt(d);return `<td class="cell ${c&&c===mx?"best":""}">${c}</td>`;}).join("")+`</tr></tbody>`;
+      $("answers").innerHTML=h;
+    } }
   // results
   const all=ROSTER.every(responded);
   $("resultsWrap").innerHTML=all&&dates.length?`<div class="banner good">All 8 are in! Copy this and share it with the forum.</div><pre>${esc(resultsText())}</pre>`
